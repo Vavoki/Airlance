@@ -222,13 +222,12 @@ ul.nav.nav-tabs {
 {
 	background-color: #0e223d;
    	color:white;
-	border-radius: 95%;
-	height: 45%;
+	border-radius: 20%;
+	height: auto;
 	width: auto;
 	font-family: 'Open Sans',sans-serif;
 	font-size: 21px;
-	margin-top: -2%;
-	margin-right: 12%;
+	padding: 10px;
 }
 #button2
 {
@@ -362,12 +361,13 @@ height: auto;
 }
 #info
 {
-padding: 1px;
+padding: 10px;
 width:100%;
 background:#0e223d;
 color: white;
 font-family: 'Open Sans',sans-serif;
 height: auto;
+    
 }
 #info1 h1
 {
@@ -401,6 +401,8 @@ height: 95%;
 #blocks1
 {
 margin-left:9.5%;
+text-align: center;
+width: 20%;
 }
 #info h1
 {

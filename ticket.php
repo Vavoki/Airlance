@@ -1,32 +1,17 @@
-﻿<html>
+<html>
 <head>
-
 <meta http-equiv="Content-Type" content="text/html" charset="utf-8">
-<link rel="stylesheet" type="text/css" href="style.css">
-	<link rel="stylesheet" type="text/css" href="style.css">
-	<link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
-	<link rel="stylesheet" ref="bootstrap-3.3.7-dist/bootstrap.min.js">	
-	<link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css" />
-	<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="js/moment-with-locales.min.js"></script>
-    <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
-	<script src="script.js"></script>
-    <script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  <script src="script.js"></script>
 </head>
 <body>
 
 
 
-<div id="menu">
-<img id="logo" src="image/AirLines.png"  align=left>
-	<ul>
-		
-		<li><a href="index.php" class="current"><span>Авиабилеты</span></a></li>
-		<li><a href="Hotels.php"><span>Отели</span></a></li>
-		<li><a href="AboutUs.php" ><span>О нас</span></a></li>     
-    <li><a href="Contakts.php" ><span>Контакты</span></a></li> 					
-	</ul>
-</div>
+ <? include_once "pages/pagesitem/menu.php"; ?>
 
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
 
@@ -63,45 +48,7 @@
   </a>
  </div>
 
- <!-- Вкладки -->
- <div id="poisk">
-<div id="tab">
-<ul class="nav nav-tabs">
-  <li class="active active-tab">   <a class="user-name" data-toggle="tab" href="#panel1"> <img id="icon" src="image/Airplane1.png">Авиабилеты </a></li>
-</ul>
-<div class="tab-content">
-<!-- Авиабилеты -->
-  <div id="panel1" class="tab-pane fade in active">
-  	<div id="inputs">	
-         
-        <form action="timetable.php" method="post" id="inputs">
-            
-        <input type="text" name="frm" id="input1" class="input-one form-control"  placeholder="Из города или аэропорта">   
-       <img src="image/Arrows.png" id="arrows">
-        <input type="text" name="to" class="form-control"  id="input1" placeholder="В город, страну или регион">
-    <select name = "typeTicket"  class="form-control"  id="input3"> 
-       <option>Выберите тип билета</option>
-       <option>Бизнес класс </option> 
-       <option>Эконом</option> 
-     <option>Первый класс</option>
-        </select>
-     <div class='input-group date picker'  id='datetimepicker2'>
-               <input id="input-date " name="DateTO" type='text' class="form-control" placeholder="Дата вылета">
-                   <span class="input-group-addon">
-                      <span class="glyphicon glyphicon-calendar">
-                      </span>
-                   </span>
-           </div>         
-        <input type="submit" name="submit" id="button1" class="btn btn-default btn-lg center-block" value="Найти">
-            
-        </form>	
-  	</div>
-     </div>
-
-
-</div>
-</div>
-</div>
+ <? include_once "pages/pagesitem/taborders.php"; ?>
 
 
  <!-- Текст -->
@@ -109,48 +56,7 @@
   <div id="info" >
   <h1> Оформление заказа</h1>
   <div id="ticket">
-  <?
-if( isset($_GET['flightB']) ){
-		$link = new mysqli("127.0.0.1", "root", "", "Airlains", 3306); 
-		$query ="SELECT * FROM `flightB` WHERE 1"; 
-		$result=mysqli_query($link,$query) or die("Ошибка " . mysqli_error($link)); 
-		$id =intval($_GET['flightB']);
-		$query ="SELECT * FROM `flightB` WHERE id ='$id'"; 
-		$result=mysqli_query($link,$query) or die("Ошибка " . mysqli_error($link)); 
-		$pr =intval($_GET['price']);
-		$typeticket =$_GET['typeTicket'];
-		$date =$_GET['date'];
-		$fly = mysqli_fetch_assoc($result);
-		$C_1=$fly['C_1'];
-		$C_2=$fly['C_2'];
-		$DepartureTime=$fly['DepartureTime'];
-		$ArrivalTime=$fly['ArrivalTime'];
-		echo "Выбранный вами класс ".$typeticket."<br>";
-		echo "Цена полета составляет ".$pr."<br>";				
-        echo "<p>Рейс №".$fly['id'].".".$C_1."-".$C_2."</p>";
-	    echo "<p>Вылет: ".$DepartureTime."</p>";
-		echo "<p>Посадка: ".$ArrivalTime."</p>";
-		echo "<p>Дата вылета:".$date."</p>";
-		if( isset($_POST['submit']))
-		{
-        $email=$_POST['email'];
-        $name=$_POST['Name'];
-		$surname =$_POST['Surname'];
-		$SerPasp=$_POST['SerPasp'];
-		$NPasp =$_POST['NPasp'];
-		$NandS_passport=$SerPasp.$NPasp;
-		$query1 ="INSERT INTO `orders`
-		(`Nflight`, `Price`, `Data_ticket`, `NandS_passport`, `TypeTicket`, `NameC`, `SurnameC`) 
-		VALUES 
-		('$id','$pr','$name','$NandS_passport','$typeticket','$name','$surname')";
- 
-		$result1 = mysqli_query($link, $query1) or die("Ошибка " . mysqli_error($link)); 
-		mail ($email, "Покупка авиобилета","Уважаемый ".$name." ".$surname." спасибо что воспользовались нашим сервисом");
-		}
-
-}
-
-?>
+  <? include_once "/php/ordersTicket.php"?>
 
 <div>
 	<form class ="formAnket form-horizontal" method="POST">
@@ -191,62 +97,62 @@ if( isset($_GET['flightB']) ){
    <table id="popular-table">
 <tr>
       <td>
-   <a href="Berlin.php"> <img src="image/Berlin.jpg"> </a>
+    <img src="image/Berlin.jpg"> 
 </td>
 <td>
-    <a href="Barcelona.php"> <img src="image/Barselona.jpg"> </a>
+     <img src="image/Barselona.jpg"> 
 </td>
 <td>
-  <a href="Dubai.php">  <img src="image/Dubai.jpg"> </a>
+  >  <img src="image/Dubai.jpg"> 
 </td>
 <td>
-    <a href="Goa.php"> <img src="image/Goa.jpg"> </a>
+    <img src="image/Goa.jpg"> 
    </td>
  </tr>
  <tr>
       <td>
-   <a href="Hoshimin.php">  <img src="image/hoshimin.jpg"> </a>
+    <img src="image/hoshimin.jpg"> 
 </td>
 <td>
- <a href="Kolombo.php"> 
+ 
    <img src="image/Kolombo.jpg">
-   </a>
+
 </td>
 <td>
-  <a href="Kopengagen.php">   <img src="image/Kopengagen.jpg"> </a>
+     <img src="image/Kopengagen.jpg">
 </td>
 <td>
- <a href="London.php"> 
+
    <img src="image/London.jpg">
-   </a>
+   
    </td>
  </tr>
   <tr>
       <td>
-    <a href="Milan.php"> <img src="image/Milan.jpg"> </a>
+     <img src="image/Milan.jpg"> 
 </td>
 <td>
-    <a href="New-York.php">  <img src="image/New-York.jpg"> </a>
+     <img src="image/New-York.jpg"> 
 </td>
 <td>
-   <a href="Paris.php">  <img src="image/Parig.jpg"> </a>
+     <img src="image/Parig.jpg"> 
 </td>
 <td>
-    <a href="Piter.php"> <img src="image/Piter.jpg"> </a>
+     <img src="image/Piter.jpg"> 
    </td>
  </tr>
  <tr>
       <td>
-   <a href="Praga.php">   <img src="image/Praga.jpg"> </a>
+      <img src="image/Praga.jpg">
 </td>
 <td>
-   <a href="Riga.php">  <img src="image/Riga.jpg"> </a>
+     <img src="image/Riga.jpg"> 
 </td>
 <td>
-    <a href="Tel-Aviv.php"> <img src="image/Tel-Aviv.jpg"> </a>
+    <img src="image/Tel-Aviv.jpg">
 </td>
 <td>
-    <a href="Tokio.php">  <img src="image/Tokio.jpg"> </a>
+   <img src="image/Tokio.jpg"> 
    </td>
  </tr>
    </table>
@@ -272,4 +178,3 @@ if( isset($_GET['flightB']) ){
  
 </body>
 </html>
-
